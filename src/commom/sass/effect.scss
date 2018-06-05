@@ -1,0 +1,53 @@
+/* 动画通用设置 */
+
+@mixin animat-setup(
+	$animat-duration: 1s,
+	$animat-mode: forwards,
+	$animat-count: 1
+) {
+	animation-duration: $animat-duration;
+	animation-fill-mode: $animat-mode;
+	animation-iteration-count: $animat-count;
+	transform-origin: center;
+}
+/* 展开侧边栏按钮的旋转 */
+@keyframes sidemenu-icon-animat {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(90deg);
+	}
+}
+.sidemenu-icon-animat {
+	animation-name: sidemenu-icon-animat;
+	@include animat-setup();
+}
+/* 设置选项打开动画 */
+@keyframes setup-open-animat {
+	from {
+		transform: translate(60%, 60%);
+		scale: 0.6;
+	}
+	to {
+		transform: translate(0, 0);
+		scale: 1;
+	}
+}
+/* 设置选项关闭动画 */
+@keyframes setup-close-animat {
+	from {
+		scale: 1;
+	}
+	to {
+		scale: 0;
+	}
+}
+.setup-open-animat {
+	animation-name: setup-open-animat;
+	@include animat-setup;
+}
+.setup-close-animat {
+	animation-name: setup-close-animat;
+	@include animat-setup;
+}

@@ -1,0 +1,47 @@
+$appbg: #f7f7f7;
+$cardbg: #fff;
+
+$icon-bhColor: #f9e777;
+$icon-fontColor: #34373e;
+$themeColor: #f8e14f;
+$sideBtnColor: #f8eb99;
+
+$tabBar-bgColor: #f7f7fa;
+$tabBar-borderColor: #d1d1d3;
+$tabBar-fontColor: #999;
+
+// 原文: http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html
+@function px2rem($px, $base-font-size: 64px) {
+	@if (unitless($px)) {
+		//@warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+		// @return px2em($px + 0px); // That may fail.
+		@return (($px + 0px) / $base-font-size) * 1rem;
+	} @else if (unit($px) ==rem) {
+		@return $px;
+	}
+	@return ($px / $base-font-size) * 1rem;
+}
+
+$tabBar-height: px2rem(92);
+$header-height: px2rem(66);
+
+/* 为dpr为2和3,的设备分别设置单独的font-size */
+
+@mixin font-dpr($font-size) {
+	font-size: $font-size;
+	[data-dpr="2"] & {
+		font-size: $font-size * 2;
+	}
+	[data-dpr="3"] & {
+		font-size: $font-size * 3;
+	}
+}
+
+$base-radius: 5px;
+@mixin bdrs() {
+	border-radius: $base-radius;
+}
+
+@mixin base-boxshadow() {
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
