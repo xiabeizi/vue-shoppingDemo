@@ -4,7 +4,7 @@
 
 ###相关细节
 
--         `vue` `vuex` `vue-router`
+-   `vue` `vuex` `vue-router`
 -   使用`mock`进行生成随机数据，并拦截 ajax 请求
 -   使用阿里的[Flexible](https://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html)插件就行移动端的适配
 -   用`sass`函数计算`rem`，和提高写`css`的效率
