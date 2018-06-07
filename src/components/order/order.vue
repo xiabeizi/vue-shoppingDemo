@@ -1,5 +1,5 @@
 <template>
-	<div v-if="!order.length">
+	<div v-if="!orderData.length">
 		<div class="no-order">
 			<img class="no-order-img"
 			     src="../../commom/images/order.png">
@@ -7,25 +7,25 @@
 		</div>
 	</div>
 	<div v-else>
-		<div class="order-list">
+		<div class="order-list"
+		     v-for="item in orderData">
 			<div class="order-status">
 				<img class="status-line"
 				     src="../../commom/images/line-black.png">
 				<span>已完成</span>
 			</div>
 			<div class="order-item"
-			     @click="setProductDetail(item)"
-			     v-for="item in order">
+			     v-for="item in item.order">
 				<img class="order-product"
-				     :src="item.good_imgsrc">
+				     :src="item.imgsrc">
 				<div class="product-detail">
-					<div class="product-name"> {{item.good_name}} </div>
+					<div class="product-name"> {{item.name}} </div>
 					<div class="product-price">￥ {{item.price}} </div>
 					<div class="product-num">X {{item.num}} </div>
 
 					<router-link tag="div"
 					             class="to-comment"
-					             :to="'/comment/' + item.good_id">
+					             :to="'/comment/' + item.id">
 						评价
 					</router-link>
 				</div>
@@ -37,18 +37,26 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			orderData: []
+		};
 	},
-	methods: {
-		//把商品信息存到vuex中
-		setProductDetail(good) {
-			this.$store.commit("setProductDetail", { good });
-		}
-	},
+	methods: {},
 	computed: {
 		order() {
 			return this.$store.state.order;
 		}
+	},
+	created() {
+		//初始化 请求商品数据
+		// this.$api.setLogin.then(Response => {
+		// 	debugger;
+		// 	this.orderData = Response.data;
+		// });
+
+		this.$api.getOrder.then(Response => {
+			this.orderData = Response.data;
+		});
 	}
 };
 </script>

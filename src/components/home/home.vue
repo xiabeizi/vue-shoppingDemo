@@ -24,14 +24,14 @@
 		<div class="good-list">
 			<router-link class="good-card"
 			             tag="div"
-			             @click.native="setProductDetail(good)"
-			             :to="'/good-detail/' + good.good_id"
+			             :to="'/good-detail/' + good.id"
 			             v-if="goodsData.length"
 			             v-for="good in goodsData"
-			             :key="good.good_id">
-				<img class="good-img"
-				     :src="good.good_imgsrc">
-				<div class="good-name">{{good.good_name}}</div>
+			             :key="good.id">
+				<div class="good-img">
+					<img :src="good.imgsrc">
+				</div>
+				<div class="good-name">{{good.name}}</div>
 				<div class="good-meta">
 					<div class="money">￥</div>
 					<div class="price">{{good.price}}</div>
@@ -41,31 +41,56 @@
 			</router-link>
 
 		</div>
+
+		<toast :showPopup="showPopup"
+		       @toggleShowPopup="toggleShowPopup"
+		       :msg="msg"
+		       :onEnsure="onEnsure"></toast>
+
 	</div>
 </template>
 
 <script>
+import toast from "../../components/toast/toast";
+
 export default {
+	components: { toast },
 	data() {
 		return {
 			//全部商品信息
-			goodsData: []
+			goodsData: [],
+			showPopup: false,
+			msg: ""
 		};
 	},
-	methods: {
-		//把商品信息存到vuex中
-		setProductDetail(good) {
-			this.$store.commit("setProductDetail", { good });
-		},
-		//把商品信息存到vuex购物车中
-		addToTrolley(good) {
-			this.$store.commit("addToTrolley", { good });
+	computed: {
+		isLogin() {
+			return this.$store.getters.isLogin;
 		}
+	},
+	methods: {
+		toggleShowPopup(boolean) {
+			this.showPopup = boolean;
+		},
+		//把商品信息存到购物车中
+		addToTrolley(good) {
+			//判断是否登录
+			if (!this.isLogin) {
+				this.msg = "还没有登录哦亲, <br>是否跳转到登录页面？";
+				this.toggleShowPopup(true);
+				this.onEnsure = function() {
+					this.$router.push({ path: "/user" });
+				};
+			} else {
+				this.$store.dispatch("addToTrolley", { good });
+			}
+		},
+		onEnsure() {}
 	},
 	created() {
 		//初始化 请求商品数据
 		this.$api.getGoods.then(Response => {
-			this.goodsData = Response.data.goodsData;
+			this.goodsData = Response.data;
 		});
 	}
 };
@@ -145,8 +170,12 @@ export default {
 		margin-right: px2rem(22);
 	}
 	.good-img {
-		width: 100%;
-		// border-radius: 5px 5px 0 0;
+		width: px2rem(266);
+		height: px2rem(266);
+		> img {
+			width: 100%;
+			height: 100%;
+		}
 	}
 	.good-name {
 		height: px2rem(50);

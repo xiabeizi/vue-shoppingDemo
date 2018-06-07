@@ -17,8 +17,8 @@
 	<div v-else>
 		<div class="user-card">
 			<img class="user-avatar"
-			     :src="userInfo.user_avatar">
-			<div class="user-name"> {{userInfo.user_name}} </div>
+			     :src="userInfo.avatar">
+			<div class="user-name"> {{userInfo.name}} </div>
 		</div>
 		<div class="user-opr">
 			<ul>

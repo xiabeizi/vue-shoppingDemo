@@ -25,15 +25,15 @@
 				<div class="ui-radio">
 					<input type="checkbox"
 					       v-model="checkArr"
-					       :value="item"
+					       :value="item.id"
 					       :id="index">
 					<label class="bggrey"
 					       :for="index"></label>
 				</div>
-				<img :src="item.good_imgsrc"
+				<img :src="item.imgsrc"
 				     class="product-img">
 				<div class="product-detail">
-					<div class="product-name"> {{item.good_name}} </div>
+					<div class="product-name"> {{item.name}} </div>
 					<div class="product-price">￥ {{item.price}} </div>
 					<div class="product-num">
 						<span v-if="!editable">X {{item.num}}</span>
@@ -96,17 +96,19 @@ export default {
 		},
 		//增减购物车商品数量
 		changeGoodNum(item, num, index) {
-			item.num += num;
-			if (item.num === 0) {
+			let newNum = item.num + num;
+			if (newNum === 0) {
 				this.msg = "是否需要删除商品？";
 				this.showPopup = true;
-				this.onEnsure = function() {
-					this.$store.commit("deleteGood", index);
+				this.onEnsure = () => {
+					//更新勾选状态
+					this.checkArr.splice(index, 1);
+					this.$store.dispatch("deleteGood", { id: item.id, index });
 				};
-				item.num = 1;
+			} else {
+				//更新后的商品数量
+				this.$store.dispatch("addToTrolley", { good: item, num });
 			}
-			this.$forceUpdate();
-			this.mathTotal();
 		},
 		//显示隐藏遮罩层
 		toggleShowPopup(boolean) {
@@ -115,19 +117,18 @@ export default {
 		//计算总价
 		mathTotal() {
 			let total = 0;
-			this.checkArr.forEach(element => {
+			this.trolley.forEach(element => {
 				total += element.num * element.price;
 			});
 			this.total = total;
 		},
 		//结算
 		checkOut() {
-			this.msg = "结算成功!<br>已购买的商品已添加到订单栏";
+			this.$store.dispatch("checkOut", this.checkArr);
+			this.checkArr = [];
+			this.msg = "结算成功!";
 			this.showPopup = true;
-			this.onEnsure = () => {
-				this.$store.commit("checkOut", this.checkArr);
-				this.checkArr = [];
-			};
+			this.onEnsure = () => {};
 		},
 		onEnsure() {}
 	},
@@ -146,7 +147,7 @@ export default {
 				this.checkArr = [];
 				if (boolean) {
 					this.trolley.forEach(item => {
-						this.checkArr.push(item);
+						this.checkArr.push(item.id);
 					});
 				}
 			}

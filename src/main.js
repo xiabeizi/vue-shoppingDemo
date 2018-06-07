@@ -17,9 +17,6 @@ router.beforeEach((to, from, next) => {
 	}
 });
 
-// 引入mockjs
-require("./mock.js");
-
 // "2018-05-30" to "2018年05月30日"
 Vue.filter("formateDate", date => {
 	const arr = date.split("-");

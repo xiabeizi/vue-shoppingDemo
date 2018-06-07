@@ -4,7 +4,7 @@
 
 ###相关细节
 
--         `vue` `vuex` `vue-router`
+-   `vue` `vuex` `vue-router`
 -   使用`mock`进行生成随机数据，并拦截 ajax 请求
 -   使用阿里的[Flexible](https://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html)插件就行移动端的适配
 -   用`sass`函数计算`rem`，和提高写`css`的效率
@@ -12,12 +12,12 @@
     `autoprefixer`插件自动补齐兼容前缀
 -   因为没有后台，所以目前所有的数据增删改都是，操作存储在`vuex`中的数据。
 
-![预览](12.gif)
+![图片加载失败](12.gif)
 
 ###收获
 
-1.  对``vue`全家桶有了更深的使用和理解
-2.  学会了使用 sass 和 postcss 等工具插件提高效率
+1.  对`vue`全家桶有了更深的使用和理解
+2.  学会了使用 `sass` 和 `postcss` 等工具插件提高效率
 3.  学会利用`keep-alive`进行动态组件的缓存，对`vue`的性能优化有了理解。
 4.  体会到组件化、模块化开发带来的便捷
 5.  熟悉了项目的开发流程
@@ -32,7 +32,8 @@
 
 # todo
 
--   [ ] 使用[json server](https://www.cnblogs.com/itfantasy/p/6043111.html)重构，进行实际应用中的的增删改数据
+-   [x] 使用[json server](https://www.cnblogs.com/itfantasy/p/6043111.html)重构，进行实际应用中的的增删改数据
+        (06-7)
 -   [ ] 根据价格进行排序和筛选
 -   [ ] 发表评论
 -   [ ] 首页轮播图
@@ -44,6 +45,9 @@
 ```bash
 # install dependencies
 npm install
+
+# 启动json-server
+npm run mock
 
 # serve with hot reload at localhost:8080
 npm run dev

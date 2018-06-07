@@ -3,9 +3,9 @@
 		<myHeader headerTitle="商品详情"></myHeader>
 		<div class="detail-card">
 			<img class="detail-img"
-			     :src="productDetail.good_imgsrc">
+			     :src="productDetail.imgsrc">
 			<div class="detail-meta">
-				<div class="detail-name">{{productDetail.good_name}}</div>
+				<div class="detail-name">{{productDetail.name}}</div>
 				<div class="detail-area">{{productDetail.area}}</div>
 				<div class="detail-price">
 					<div class="detail-money">￥</div>
@@ -26,7 +26,7 @@
 			</ul>
 			<router-link tag="div"
 			             class="comment"
-			             :to="'/comment/' + productDetail.good_id">
+			             :to="'/comment/' + productDetail.id">
 				<span class="comment-text">已买评价</span>
 				<div>
 					<span class="comment-num">{{ productDetail.comment_num }}条</span>
@@ -61,13 +61,11 @@ export default {
 	data() {
 		return {
 			showPopup: false,
-			msg: ""
+			msg: "",
+			productDetail: {}
 		};
 	},
 	computed: {
-		productDetail() {
-			return this.$store.state.productDetail;
-		},
 		isLogin() {
 			return this.$store.getters.isLogin;
 		}
@@ -87,7 +85,7 @@ export default {
 					this.$router.push({ path: "/user" });
 				};
 			} else {
-				this.$store.commit("addToTrolley", {
+				this.$store.dispatch("addToTrolley", {
 					good: this.productDetail
 				});
 				this.msg = "加入购物车成功, <br>是否跳转到购物车页面？";
@@ -105,7 +103,9 @@ export default {
 					this.$router.push({ path: "/user" });
 				};
 			} else {
-				this.$store.commit("checkOut", [this.productDetail]);
+				let id = this.productDetail.id;
+				let arr = [id];
+				this.$store.dispatch("addToTrolley", { arr });
 				this.msg = "购买成功, <br>是否跳转回首页？";
 				this.toggleShowPopup(true);
 				this.onEnsure = function() {
@@ -117,9 +117,9 @@ export default {
 	created() {
 		let id = this.$route.params.id;
 		//初始化 请求商品数据
-		if (!this.productDetail.hasOwnProperty("area")) {
-			this.$store.dispatch("getProductDetail", id);
-		}
+		this.$api.getProductDetail(id).then(Response => {
+			this.productDetail = Response.data;
+		});
 		//隐藏tab烂
 		this.$store.commit("toggleTabbar", false);
 	},

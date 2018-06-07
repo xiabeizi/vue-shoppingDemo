@@ -3,25 +3,25 @@
 		<myHeader headerTitle="商品评论"></myHeader>
 		<div class="comment-product">
 			<img class="product-img"
-			     :src="productDetail.good_imgsrc">
+			     :src="productDetail.imgsrc">
 			<div class="product-meta">
-				<div class="product-name">{{productDetail.good_name}}</div>
+				<div class="product-name">{{productDetail.name}}</div>
 				<div class="product-price">￥ {{productDetail.price}}</div>
 			</div>
 		</div>
 		<div class="comment-list">
 			<div class="comment-num"> {{productDetail.comment_num}} 条评价</div>
 			<div class="comment-item"
-			     v-for="item in productDetail.commentArray">
-				<img :src="item.comment_avatar"
+			     v-for="item in commentArray">
+				<img :src="item.avatar"
 				     class="comment-avatar">
 				<div class="comment-content">
 					<div class="comment-meta">
-						<div class="comment-user"> {{item.comment_name}} </div>
-						<div class="comment-date">{{item.comment_date | formateDate}}</div>
+						<div class="comment-user"> {{item.name}} </div>
+						<div class="comment-date">{{item.date | formateDate}}</div>
 					</div>
 					<div class="comment-text">
-						{{item.comment_detail}}
+						{{item.detail}}
 					</div>
 				</div>
 			</div>
@@ -35,22 +35,34 @@ import myHeader from "../header/header.vue";
 export default {
 	components: { myHeader },
 	data() {
-		return {};
+		return {
+			productDetail: {},
+			commentArray: []
+		};
 	},
-	computed: {
-		productDetail() {
-			return this.$store.state.productDetail;
-		}
-	},
+	// computed: {
+	// 	productDetail() {
+	// 		return this.$store.state.productDetail;
+	// 	}
+	// },
 	methods: {},
 	created() {
 		let id = this.$route.params.id;
-		let comment_num = this.$store.state.productDetail.comment_num || 20;
-		//初始化 请求商品数据
-		this.$store.dispatch("getComment", {
-			id,
-			comment_num
+		///初始化 请求商品数据
+		this.$api.getProductDetail(id).then(Response => {
+			this.productDetail = Response.data;
 		});
+		//请求商品评论
+		this.$api.getComment(id).then(Response => {
+			this.commentArray = Response.data.commentArray;
+		});
+
+		// let comment_num = this.$store.state.productDetail.comment_num || 20;
+		// //初始化 请求商品数据
+		// this.$store.dispatch("getComment", {
+		// 	id,
+		// 	comment_num
+		// });
 	}
 };
 </script>
