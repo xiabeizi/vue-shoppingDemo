@@ -18,7 +18,7 @@
 
 1.  对`vue`全家桶有了更深的使用和理解
 2.  学会了使用 `sass` 和 `postcss` 等工具插件提高效率
-3.  学会利用`keep-alive`进行动态组件的缓存，对`vue`的性能优化有了理解。
+3.  学会利用[`keep-alive`](https://xiangsongtao.github.io/blog/lu-you-kai-qi-keep-alive-shi-de/)进行动态组件的缓存，对`vue`的性能优化有了理解。
 4.  体会到组件化、模块化开发带来的便捷
 5.  熟悉了项目的开发流程
 
