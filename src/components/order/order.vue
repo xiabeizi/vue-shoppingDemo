@@ -8,7 +8,8 @@
 	</div>
 	<div v-else>
 		<div class="order-list"
-		     v-for="item in orderData">
+		     v-for="item in orderData"
+		     :key=item.id>
 			<div class="order-status">
 				<img class="status-line"
 				     src="../../commom/images/line-black.png">
@@ -47,13 +48,13 @@ export default {
 			return this.$store.state.order;
 		}
 	},
+	//理论上应该在用户登录，得到用户id之后获取，没有完整的后台，只能先这样
 	created() {
-		//初始化 请求商品数据
-		// this.$api.setLogin.then(Response => {
-		// 	debugger;
-		// 	this.orderData = Response.data;
-		// });
-
+		this.$api.getOrder.then(Response => {
+			this.orderData = Response.data;
+		});
+	},
+	actived() {
 		this.$api.getOrder.then(Response => {
 			this.orderData = Response.data;
 		});

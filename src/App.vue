@@ -1,8 +1,12 @@
 <template>
 	<div id="app">
 
-		<router-view></router-view>
+		<keep-alive>
+			<router-view></router-view>
+		</keep-alive>
+
 		<nav class="tabBar"
+		     ref="tabBar"
 		     v-show="tabBarShow">
 			<router-link to="/home">
 				<span class="bg home"></span>
@@ -55,6 +59,10 @@ export default {
 		cbadgeAdd() {
 			this.badgeAdd = !this.badgeAdd;
 		}
+	},
+	mounted() {
+		const height = this.$refs.tabBar.clientHeight;
+		this.$store.commit("setTabBarHeight", height);
 	}
 };
 </script>

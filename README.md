@@ -32,13 +32,15 @@
 
 # todo
 
+> 因为公司需要，这段时间会专注于学习小程序，这个暂时停下来。
+
 -   [x] 使用[json server](https://www.cnblogs.com/itfantasy/p/6043111.html)重构，进行实际应用中的的增删改数据
-        (06-7)
+        (06-07)
 -   [ ] 根据价格进行排序和筛选
 -   [ ] 发表评论
 -   [ ] 首页轮播图
 -   [ ] 完善的登录、注册
--   [ ] 使用[btter-scroll](https://www.imooc.com/article/18232)和[vue-lazyload](https://blog.csdn.net/SunnyYang222/article/details/78471870)优化使用体验
+-   [x] 使用[btter-scroll](https://www.imooc.com/article/18232)和[vue-lazyload](https://blog.csdn.net/SunnyYang222/article/details/78471870)优化使用体验(06-09)
 
 ### Build Setup
 

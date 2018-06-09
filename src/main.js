@@ -1,14 +1,19 @@
 import Api from "./api/api";
+import VueLazyLoad from "vue-lazyload";
 import "./commom/css/base.css";
 import Vue from "vue";
 import router from "./router";
 import store from "./store/index";
 import App from "./App.vue";
 
+//把api挂载到 vue 原型上
 Vue.prototype.$api = Api;
 
+//懒加载插件
+Vue.use(VueLazyLoad);
+
+//跳转之前 判断用户是否登录了
 router.beforeEach((to, from, next) => {
-	// console.log(to, from)
 	let path = to.path;
 	if (!store.getters.isLogin && (path === "/trolley" || path === "/order")) {
 		next("/user");

@@ -11,10 +11,14 @@ const state = {
 	trolley: [],
 	//已完成的订单
 	order: [],
-	userInfo: null
+	//用户信息
+	userInfo: null,
+	//tabBar高度
+	tabBarHeight: 0
 };
 
 const getters = {
+	//购物车中商品的总数量
 	trolleyNum(state) {
 		let num = 0;
 		state.trolley.forEach(item => {
@@ -22,6 +26,7 @@ const getters = {
 		});
 		return num;
 	},
+	//是否登录
 	isLogin(state) {
 		return state.userInfo;
 	}
@@ -29,14 +34,13 @@ const getters = {
 
 const mutations = {
 	//切换tab显示
+	setTabBarHeight(state, height) {
+		state.tabBarHeight = height;
+	},
+	//切换tab显示
 	toggleTabbar(state, boolean) {
 		state.tabBarShow = boolean;
 	},
-	//从购物车删除商品
-	deleteGood(state, index) {
-		state.trolley.splice(index, 1);
-	},
-
 	//结算商品（把商品从购物车添加到订单）
 	checkOut(state, arr) {
 		//返回数组中不同的值，即删除相同的
@@ -51,7 +55,7 @@ const mutations = {
 	setLogin(state, { userInfo }) {
 		state.userInfo = userInfo;
 	},
-	//更新商品书籍
+	//更新商品数据
 	_updateTrolley(state, { type, index, newTrolley }) {
 		switch (type) {
 			case "push":

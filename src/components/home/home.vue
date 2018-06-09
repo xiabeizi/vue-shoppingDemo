@@ -1,71 +1,78 @@
 <template>
-	<div>
-		<div class="hot-card">
-			<div class="hot-name">
-				<img class="hot-line"
-				     src="../../commom/images/line-red.png">
-				<span class="hot-text"> 钱包 </span>
-				<img class="hot-line"
-				     src="../../commom/images/line-red.png">
+	<scroll :data="goodsData"
+	        :style="styleObject">
+		<div style="overflow: hidden;">
+			<div class="hot-card">
+				<div class="hot-name">
+					<img class="hot-line"
+					     src="../../commom/images/line-red.png">
+					<span class="hot-text"> 钱包 </span>
+					<img class="hot-line"
+					     src="../../commom/images/line-red.png">
+				</div>
+				<img class="discount"
+				     src="../../commom/images/discount.png">
+				<img class="hot-good"
+				     src="../../commom/images/product1.jpg">
 			</div>
-			<img class="discount"
-			     src="../../commom/images/discount.png">
-			<img class="hot-good"
-			     src="../../commom/images/product1.jpg">
+			<div class="list-title">
+				<img class="list-title-line"
+				     src="../../commom/images/line-black.png">
+				<span class="list-title-text"> 春季推荐 </span>
+				<img class="list-title-line"
+				     src="../../commom/images/line-black.png">
+
+			</div>
+			<div class="good-list">
+				<router-link class="good-card"
+				             tag="div"
+				             :to="'/good-detail/' + good.id"
+				             v-if="goodsData.length"
+				             v-for="good in goodsData"
+				             :key="good.id">
+					<div class="good-img">
+						<img v-lazy="good.imgsrc">
+					</div>
+					<div class="good-name">{{good.name}}</div>
+					<div class="good-meta">
+						<div class="money">￥</div>
+						<div class="price">{{good.price}}</div>
+						<div class="add-to-torlley"
+						     @click.stop="addToTrolley(good)">+</div>
+					</div>
+				</router-link>
+
+			</div>
+
+			<toast :showPopup="showPopup"
+			       @toggleShowPopup="toggleShowPopup"
+			       :msg="msg"
+			       :onEnsure="onEnsure"></toast>
 		</div>
-		<div class="list-title">
-			<img class="list-title-line"
-			     src="../../commom/images/line-black.png">
-			<span class="list-title-text"> 春季推荐 </span>
-			<img class="list-title-line"
-			     src="../../commom/images/line-black.png">
-
-		</div>
-		<div class="good-list">
-			<router-link class="good-card"
-			             tag="div"
-			             :to="'/good-detail/' + good.id"
-			             v-if="goodsData.length"
-			             v-for="good in goodsData"
-			             :key="good.id">
-				<div class="good-img">
-					<img :src="good.imgsrc">
-				</div>
-				<div class="good-name">{{good.name}}</div>
-				<div class="good-meta">
-					<div class="money">￥</div>
-					<div class="price">{{good.price}}</div>
-					<div class="add-to-torlley"
-					     @click.stop="addToTrolley(good)">+</div>
-				</div>
-			</router-link>
-
-		</div>
-
-		<toast :showPopup="showPopup"
-		       @toggleShowPopup="toggleShowPopup"
-		       :msg="msg"
-		       :onEnsure="onEnsure"></toast>
-
-	</div>
+	</scroll>
 </template>
 
 <script>
 import toast from "../../components/toast/toast";
+import scroll from "../../components/better-scroll/better-scroll";
 
 export default {
-	components: { toast },
+	components: { toast, scroll },
 	data() {
 		return {
 			//全部商品信息
 			goodsData: [],
 			showPopup: false,
-			msg: ""
+			msg: "",
+			styleObject: {}
 		};
 	},
 	computed: {
 		isLogin() {
 			return this.$store.getters.isLogin;
+		},
+		tabBarHeight() {
+			return this.$store.state.tabBarHeight;
 		}
 	},
 	methods: {
@@ -92,6 +99,12 @@ export default {
 		this.$api.getGoods.then(Response => {
 			this.goodsData = Response.data;
 		});
+	},
+	mounted() {
+		const height = window.innerHeight - this.tabBarHeight;
+		this.styleObject = {
+			height: height + "px"
+		};
 	}
 };
 </script>

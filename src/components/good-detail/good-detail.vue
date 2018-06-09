@@ -62,7 +62,9 @@ export default {
 		return {
 			showPopup: false,
 			msg: "",
-			productDetail: {}
+			productDetail: {},
+			//prevId判断id是否发生变化以确定要不要重新请求数据
+			prevId: 0
 		};
 	},
 	computed: {
@@ -116,6 +118,7 @@ export default {
 	},
 	created() {
 		let id = this.$route.params.id;
+		this.prevId = id;
 		//初始化 请求商品数据
 		this.$api.getProductDetail(id).then(Response => {
 			this.productDetail = Response.data;
@@ -123,7 +126,18 @@ export default {
 		//隐藏tab烂
 		this.$store.commit("toggleTabbar", false);
 	},
-	destroyed() {
+	activated() {
+		let id = this.$route.params.id;
+		//判断id是否发生变化
+		if (id !== this.prevId) {
+			this.$api.getProductDetail(id).then(Response => {
+				this.productDetail = Response.data;
+			});
+		}
+		//隐藏tab烂
+		this.$store.commit("toggleTabbar", false);
+	},
+	deactivated() {
 		//显示tab栏
 		this.$store.commit("toggleTabbar", true);
 	}

@@ -156,6 +156,17 @@ export default {
 			return this.$store.state.trolley;
 		}
 	}
+	//请求数据理论上应该在，用户登录，得到用户id之后获取，没有完整的后台，只能先这样
+	// created() {
+	// 	this.$api.getTrolley.then(Response => {
+	// 		this.trolley = Response.data;
+	// 	});
+	// },
+	// actived() {
+	// 	this.$api.getTrolley.then(Response => {
+	// 		this.trolley = Response.data;
+	// 	});
+	// }
 };
 </script>
 

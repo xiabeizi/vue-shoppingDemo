@@ -13,7 +13,7 @@
 			<div class="comment-num"> {{productDetail.comment_num}} 条评价</div>
 			<div class="comment-item"
 			     v-for="item in commentArray">
-				<img :src="item.avatar"
+				<img v-lazy="item.avatar"
 				     class="comment-avatar">
 				<div class="comment-content">
 					<div class="comment-meta">
@@ -37,7 +37,9 @@ export default {
 	data() {
 		return {
 			productDetail: {},
-			commentArray: []
+			commentArray: [],
+			//prevId判断id是否发生变化以确定要不要重新请求数据
+			prevId: 0
 		};
 	},
 	// computed: {
@@ -48,6 +50,7 @@ export default {
 	methods: {},
 	created() {
 		let id = this.$route.params.id;
+		this.prevId = id;
 		///初始化 请求商品数据
 		this.$api.getProductDetail(id).then(Response => {
 			this.productDetail = Response.data;
@@ -63,6 +66,22 @@ export default {
 		// 	id,
 		// 	comment_num
 		// });
+	},
+	activated() {
+		let id = this.$route.params.id;
+		//判断id是否发生变化
+		if (id !== this.prevId) {
+			//初始化 请求商品数据
+			this.$api.getProductDetail(id).then(Response => {
+				this.productDetail = Response.data;
+			});
+			//请求商品评论
+			this.$api.getComment(id).then(Response => {
+				this.commentArray = Response.data.commentArray;
+			});
+		}
+		//隐藏tab烂
+		// this.$store.commit("toggleTabbar", false);
 	}
 };
 </script>

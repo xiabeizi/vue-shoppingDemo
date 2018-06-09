@@ -27,6 +27,11 @@ api.getComment = function(id) {
 	return api.ajax.get("/goodsCommentDate/" + id);
 };
 
+//用户获取购物车商品 ,
+// api.getTrolley = function () {
+// 	return api.ajax.get("/userTrolley/");
+// };
+
 //用户保存购物车商品
 api.addToTrolley = function(good) {
 	return api.ajax.post("/userTrolley/", good);

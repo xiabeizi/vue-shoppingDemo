@@ -20,20 +20,12 @@ const comment = resolve =>
 
 Vue.use(Router);
 
-function checkIfLogin(to, from, next) {
-	if (true) {
-		next();
-	} else {
-		next("/user");
-	}
-}
-
 export default new Router({
 	routes: [
 		{ path: "/", component: home },
 		{ path: "/home", component: home },
-		{ path: "/order", component: order, beforeEnter: checkIfLogin },
-		{ path: "/trolley", component: trolley, beforeEnter: checkIfLogin },
+		{ path: "/order", component: order },
+		{ path: "/trolley", component: trolley },
 		{ path: "/user", component: user },
 		{ path: "/good-detail/:id", component: goodDetail },
 		{ path: "/comment/:id", component: comment }
